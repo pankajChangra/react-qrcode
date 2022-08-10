@@ -1,26 +1,48 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import BasicInput from './component/Basic-input';
+import LiveQrCode from './component/Live-qr-code';
+import QRCode from "qrcode";
 
 function App() {
+  
+  const [qrText, setQrText] = React.useState("");
+  const [qrCode, setQrCode] = React.useState("");
+
+  const generateQrCode = () => {
+    QRCode.toDataUrl(qrText, {
+      width: 900,
+      margin: 3
+    }, (err: any, url: string) => {
+      if (err) {
+        return console.error(err);
+      }
+
+      setQrCode(url);
+    })
+  };
+
+  const handleQrCode = (e: any) => {
+    setQrText(e.target.value);
+    generateQrCode();
+  }
+
+  const inputProps = {
+    label:"Qr code Text",
+    type:"text",
+    onHandleChange: (e: any) => handleQrCode(e),
+    style: {marginTop: 20},
+    value: qrText
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <LiveQrCode value={qrText} />
+      <BasicInput {...inputProps} />
+      <br />
+      <a href={qrCode} download={`${qrText}.png`}>download</a>
     </div>
-  );
+  )
 }
 
 export default App;
