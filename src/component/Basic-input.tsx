@@ -17,7 +17,7 @@ const BasicInput = (inputProps: PropsInterface) => {
             <input 
                 type={type}
                 value={value}
-                onChange={() => onHandleChange()}
+                onChange={(e: any) => onHandleChange(e)}
             />
         </div>
     )

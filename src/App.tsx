@@ -10,7 +10,7 @@ function App() {
   const [qrCode, setQrCode] = React.useState("");
 
   const generateQrCode = () => {
-    QRCode.toDataUrl(qrText, {
+    QRCode.toDataURL(qrText, {
       width: 900,
       margin: 3
     }, (err: any, url: string) => {
@@ -30,7 +30,7 @@ function App() {
   const inputProps = {
     label:"Qr code Text",
     type:"text",
-    onHandleChange: (e: any) => handleQrCode(e),
+    onHandleChange: handleQrCode,
     style: {marginTop: 20},
     value: qrText
   }
